@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('reels', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users','id')->cascadeOnDelete();
+            // $table->foreignId('category_id')->constrained()->cascadeOnDelete();
+            // $table->string('thumbnail')->nullable();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->string('image');
+            $table->text('content')->nullable();
+            // $table->json('tags')->nullable();
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }
