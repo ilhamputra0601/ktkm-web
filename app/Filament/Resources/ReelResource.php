@@ -11,6 +11,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -26,7 +27,7 @@ class ReelResource extends Resource
 {
     protected static ?string $model = Reel::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
 
     protected static ?string $navigationGroup = 'Posts';
 
@@ -34,6 +35,7 @@ class ReelResource extends Resource
     {
         return $form
             ->schema([
+                Card::make()->schema([
                 TextInput::make('title')->rules('min:3|max:50')
                 ->live(onBlur: true)
                 ->required()
@@ -49,13 +51,14 @@ class ReelResource extends Resource
                 ->image()
                 ->imageEditor(),
                 RichEditor::make('content')->disableToolbarButtons(['attachFiles'])->columnSpanFull(),
+                ])
             ]);
         }
 
     public static function table(Table $table): Table
     {
         return $table
-            // ->query(fn (Builder $query) => $query->where('user_id', auth()->id()))
+
             ->columns([
                 TextColumn::make('title')
                 ->description(fn (Reel $record) => Str::limit($record->content, 50))
@@ -71,11 +74,6 @@ class ReelResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ]);
     }
 
@@ -93,5 +91,16 @@ class ReelResource extends Resource
             'create' => Pages\CreateReel::route('/create'),
             'edit' => Pages\EditReel::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        // Allow superAdmin to see all records
+        if (auth()->user()->hasRole('superAdmin')) {
+            return parent::getEloquentQuery();
+        }
+
+        // Restrict others to only see their own reels
+        return parent::getEloquentQuery()->where('user_id', auth()->id());
     }
 }

@@ -1,23 +1,18 @@
 <?php
 
-namespace App\Filament\Resources\ReelResource\Pages;
+namespace App\Filament\Resources\DivisionResource\Pages;
 
-use App\Filament\Resources\ReelResource;
+use App\Filament\Resources\DivisionResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditReel extends EditRecord
+class EditDivision extends EditRecord
 {
-    protected static string $resource = ReelResource::class;
+    protected static string $resource = DivisionResource::class;
 
     protected function getRedirectUrl(): string
     {
     return $this->getResource()::getUrl('index');
-    }
-
-    protected function getSavedNotificationTitle(): ?string
-    {
-        return 'Reel Berhasil di Perbaharui';
     }
 
     protected function getHeaderActions(): array
