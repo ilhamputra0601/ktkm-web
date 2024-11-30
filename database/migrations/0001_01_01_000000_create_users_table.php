@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('division_id')->constrained('divisions')->onDelete('cascade');
             $table->string('name');
+            $table->string('avatar_url')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

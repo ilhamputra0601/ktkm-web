@@ -5,10 +5,11 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -26,8 +27,9 @@ class User extends Authenticatable  implements FilamentUser
     protected $fillable = [
         'name',
         'email',
-        'division_id',
         'password',
+        'division_id',
+        'avatar_url',
     ];
 
     /**
@@ -63,8 +65,26 @@ class User extends Authenticatable  implements FilamentUser
                 $user->division_id = 4;
             }
 
-            if (!$user->hasAnyRole('')) {
-                $user->assignRole('Pengunjung');
+            // if (!$user->hasAnyRole('')) {
+            //     $user->assignRole('Pengunjung');
+            // }
+        });
+
+        // Delete avatar file when the user is deleted
+        static::deleting(function ($user) {
+            if ($user->avatar_url) {
+                Storage::disk('public')->delete($user->avatar_url);
+            }
+        });
+
+        // Delete old avatar file when the avatar is updated
+        static::updating(function ($user) {
+            $originalAvatar = $user->getOriginal('avatar_url'); // Avatar before update
+            $newAvatar = $user->avatar_url; // Avatar after update
+
+            // If the avatar is being updated, delete the old file
+            if ($originalAvatar && $originalAvatar !== $newAvatar) {
+                Storage::disk('public')->delete($originalAvatar);
             }
         });
     }

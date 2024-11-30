@@ -47,9 +47,13 @@ class ReelResource extends Resource
                     $set('slug', Str::slug($state));
                 }),
                 TextInput::make('slug')->unique(ignoreRecord: true)->required(),
-                FileUpload::make('image')
-                ->image()
-                ->imageEditor(),
+                FileUpload::make('images')
+                    ->image()
+                    ->label('Gambar')
+                    ->multiple()
+                    ->directory('reel-images')
+                    ->image()
+                    ->imageEditor(),
                 RichEditor::make('content')->disableToolbarButtons(['attachFiles'])->columnSpanFull(),
                 ])
             ]);
@@ -61,11 +65,17 @@ class ReelResource extends Resource
 
             ->columns([
                 TextColumn::make('title')
+                ->label('Judul')
                 ->description(fn (Reel $record) => Str::limit($record->content, 50))
                 ->searchable(),
-                TextColumn::make('user.name')->label('created by'),
-                ImageColumn::make('image')
-                ->size(40)
+                TextColumn::make('user.name')
+                ->label('Dibuat Oleh'),
+                ImageColumn::make('images')
+                ->label('Gambar')
+                ->circular()
+                ->stacked()
+                ->limit(3)
+                ->limitedRemainingText()
             ])
             ->filters([
                 //

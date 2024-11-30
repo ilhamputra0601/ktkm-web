@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
-use App\Models\Division;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -63,6 +62,10 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('avatar_url')
+                    ->circular()
+                    ->defaultImageUrl(url('images\default-avatar.png'))
+                    ->label('Image'),
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama')
                     ->searchable(),

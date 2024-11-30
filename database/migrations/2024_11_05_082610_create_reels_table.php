@@ -18,7 +18,7 @@ return new class extends Migration
             // $table->string('thumbnail')->nullable();
             $table->string('title');
             $table->string('slug')->unique();
-            $table->string('image');
+            $table->string('images');
             $table->text('content')->nullable();
             // $table->json('tags')->nullable();
             $table->boolean('published')->default(false);
