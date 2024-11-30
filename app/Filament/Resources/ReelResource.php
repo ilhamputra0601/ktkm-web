@@ -96,7 +96,7 @@ class ReelResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         // Allow superAdmin to see all records
-        if (auth()->user()->hasRole('superAdmin')) {
+        if (auth()->user()->hasRole(['Super Admin','admin'])) {
             return parent::getEloquentQuery();
         }
 

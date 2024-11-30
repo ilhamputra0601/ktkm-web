@@ -16,7 +16,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable  implements FilamentUser
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable,  HasRoles;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -54,13 +54,25 @@ class User extends Authenticatable  implements FilamentUser
 
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($user) {
+            if (is_null($user->division_id)) {
+                $user->division_id = 4;
+            }
+
+            if (!$user->hasAnyRole('')) {
+                $user->assignRole('Pengunjung');
+            }
+        });
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
+        return $this->hasRole(['Super Admin','Admin','Pengurus','Anggota','Pengunjung']);
 
-        if ($this->hasRole(['Super Admin','Admin','Pengurus','Anggota'])) {
-            return true;
-        }
-        return false;
     }
 
     public function division():BelongsTo
