@@ -24,6 +24,8 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
+    protected static ?string $pluralModelLabel = 'Informasi Pengguna';
+
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
     public static function form(Form $form): Form
@@ -44,16 +46,18 @@ class UserResource extends Resource
                     ->required(),
                 Select::make('roles')
                     ->label('Role')
-                    ->relationship('roles', 'name')
+                    ->relationship('roles', 'name', function (Builder $query) {
+                        $query->where('id', '!=', 1);
+                    })
                     ->preload()
                     ->required(),
-                DateTimePicker::make('email_verified_at'),
-                TextInput::make('password')
-                    ->password()
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                    ->dehydrated(fn ($state) => filled ($state))
-                    ->required(fn (Page $livewire) => ($livewire instanceof CreateUser))
-                    ->maxLength(255),
+                // DateTimePicker::make('email_verified_at'),
+                // TextInput::make('password')
+                //     ->password()
+                //     ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                //     ->dehydrated(fn ($state) => filled ($state))
+                //     ->required(fn (Page $livewire) => ($livewire instanceof CreateUser))
+                //     ->maxLength(255),
                     ])->columns(2)
             ]);
     }
@@ -93,8 +97,10 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\EditAction::make()
+                ->visible(fn ($record) => $record->roles->first()?->id !== 1), // Menggunakan first()
+                Tables\Actions\DeleteAction::make()
+                ->visible(fn ($record) => $record->roles->first()?->id !== 1), // Menggunakan first()
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

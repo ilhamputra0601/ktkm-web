@@ -13,7 +13,7 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        if($user->hasRole('Super Admin') || $user->hasPermissionTo('Akses Role')){
+        if($user->hasRole('Developer') || $user->hasPermissionTo('Akses Role')){
             return true;
         }
             return false;
@@ -24,7 +24,7 @@ class RolePolicy
      */
     // public function view(User $user, Role $role): bool
     // {
-    //     if($user->hasRole('Super Admin') || $user->hasPermissionTo('Akses Role')){
+    //     if($user->hasRole('Developer') || $user->hasPermissionTo('Akses Role')){
     //         return true;
     //     }
     //         return false;
@@ -35,7 +35,7 @@ class RolePolicy
      */
     // public function create(User $user): bool
     // {
-    //     return $user->hasRole('superAdmin');
+    //     return $user->hasRole('Developer');
     // }
 
     /**
@@ -43,7 +43,7 @@ class RolePolicy
      */
     // public function update(User $user, Role $role): bool
     // {
-    //     return $user->hasRole('superAdmin');
+    //     return $user->hasRole('Developer');
     // }
 
     /**
@@ -51,7 +51,7 @@ class RolePolicy
      */
     // public function delete(User $user, Role $role): bool
     // {
-    //     return $user->hasRole('superAdmin');
+    //     return $user->hasRole('Developer');
     // }
 
     /**
@@ -59,7 +59,7 @@ class RolePolicy
      */
     // public function restore(User $user, Role $role): bool
     // {
-    //     return $user->hasRole('superAdmin');
+    //     return $user->hasRole('Developer');
     // }
 
     /**
@@ -67,6 +67,6 @@ class RolePolicy
      */
     // public function forceDelete(User $user, Role $role): bool
     // {
-    //     return $user->hasRole('superAdmin');
+    //     return $user->hasRole('Developer');
     // }
 }

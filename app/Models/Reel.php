@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Reel extends Model
 {
@@ -44,5 +45,20 @@ class Reel extends Model
             }
         });
 
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // Generate slug sebelum menyimpan data
+        static::saving(function ($reel) {
+            if (empty($reel->slug)) {
+                $slug = Str::slug($reel->title);
+                // Pastikan slug unik
+                $count = Reel::where('slug', 'like', "$slug%")->count();
+                $reel->slug = $count > 0 ? "{$slug}-" . ($count + 1) : $slug;
+            }
+        });
     }
 }

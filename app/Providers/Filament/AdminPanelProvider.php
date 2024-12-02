@@ -30,9 +30,20 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->Registration()
+            ->passwordReset()
+            ->emailVerification()
             ->colors([
-                'primary' => Color::Amber,
+                'danger' => Color::Red,
+                'gray' => Color::Slate,
+                'info' => Color::Blue,
+                'primary' => Color::Indigo,
+                'success' => Color::Emerald,
+                'warning' => Color::Orange,
             ])
+            ->font('Poppins')
+            ->brandLogo(asset('images/default-logo.png'))
+            ->brandLogoHeight('3rem')
+            // ->brandName('Karang Taruna Kemirimuka')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
@@ -62,8 +73,8 @@ class AdminPanelProvider extends PanelProvider
                 FilamentEditProfilePlugin::make()
                 ->slug('my-profile')
                 ->setTitle('My Profile')
-                ->setNavigationLabel('My Profile')
-                ->setNavigationGroup('Group Profile')
+                ->setNavigationLabel('Pengaturan ')
+                ->setNavigationGroup('Profile Saya')
                 ->setIcon('heroicon-o-user')
                 ->setSort(10)
                 ->shouldShowAvatarForm(

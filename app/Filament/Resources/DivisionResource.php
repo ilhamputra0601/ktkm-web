@@ -21,7 +21,9 @@ class DivisionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-briefcase';
 
-    protected static ?string $navigationGroup = 'Settings';
+    protected static ?string $pluralModelLabel = 'Divisi';
+
+    protected static ?string $navigationGroup = 'Admin Area';
 
     public static function form(Form $form): Form
     {
@@ -35,6 +37,7 @@ class DivisionResource extends Resource
                     ->label('Logo Divisi')
                     ->directory('logo-divisions')
                     ->image()
+                    ->optimize('webp')
                     ->imageEditor(),
                 ])
             ]);

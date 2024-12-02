@@ -16,9 +16,9 @@ class RoleRedirect
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->hasRole('Pengunjung')) {
-            return redirect()->route('welcome');
-        }
+        // if (Auth::check() && Auth::user()->hasRole('Pengunjung')) {
+        //     return redirect()->route('welcome');
+        // }
 
         return $next($request);
     }

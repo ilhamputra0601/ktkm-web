@@ -24,8 +24,8 @@ class DatabaseSeeder extends Seeder
         $pengunjung = Division::create(['name' => 'Pengunjung']);
 
         $user1 = User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@gmail.com',
+            'name' => 'Developer',
+            'email' => 'ilhamputra0601@gmail.com',
             'division_id' => $kominfo->id,
         ]);
 
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             'division_id' => $pengunjung->id,
         ]);
 
-        $role1 = Role::create(['name' => 'Super Admin']);
+        $role1 = Role::create(['name' => 'Developer']);
         $user1->assignRole($role1);
         $role2 = Role::create(['name' => 'Admin']);
         $user2->assignRole($role2);

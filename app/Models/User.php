@@ -65,9 +65,9 @@ class User extends Authenticatable  implements FilamentUser
                 $user->division_id = 4;
             }
 
-            // if (!$user->hasAnyRole('')) {
-            //     $user->assignRole('Pengunjung');
-            // }
+            if (!$user->hasAnyRole('')) {
+                $user->assignRole('Pengunjung');
+            }
         });
 
         // Delete avatar file when the user is deleted
@@ -91,7 +91,7 @@ class User extends Authenticatable  implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasRole(['Super Admin','Admin','Pengurus','Anggota','Pengunjung']);
+        return $this->hasRole(['Developer']) && $this->hasVerifiedEmail() || $this->hasVerifiedEmail();
 
     }
 

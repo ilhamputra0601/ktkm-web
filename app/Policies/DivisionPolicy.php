@@ -13,7 +13,7 @@ class DivisionPolicy
      */
     public function viewAny(User $user): bool
     {
-        if($user->hasRole('Super Admin') || $user->hasPermissionTo('Akses Divisi')){
+        if($user->hasRole('Developer') || $user->hasPermissionTo('Akses Divisi')){
             return true;
         }
             return false;
@@ -24,7 +24,7 @@ class DivisionPolicy
      */
     public function view(User $user, Division $division): bool
     {
-        if($user->hasRole('Super Admin') || $user->hasPermissionTo('Akses Divisi')){
+        if($user->hasRole('Developer') || $user->hasPermissionTo('Akses Divisi')){
             return true;
         }
             return false;
@@ -35,7 +35,7 @@ class DivisionPolicy
      */
     public function create(User $user): bool
     {
-        if($user->hasRole('Super Admin') || $user->hasPermissionTo('Akses Divisi')){
+        if($user->hasRole('Developer') || $user->hasPermissionTo('Akses Divisi')){
             return true;
         }
             return false;
@@ -46,7 +46,7 @@ class DivisionPolicy
      */
     public function update(User $user, Division $division): bool
     {
-        if($user->hasRole('Super Admin') || $user->hasPermissionTo('Akses Divisi')){
+        if($user->hasRole('Developer') || $user->hasPermissionTo('Akses Divisi')){
             return true;
         }
             return false;
@@ -57,7 +57,7 @@ class DivisionPolicy
      */
     public function delete(User $user, Division $division): bool
     {
-        return $user->hasRole('Super Admin');
+        return $user->hasRole('Developer');
     }
 
     /**
@@ -65,7 +65,7 @@ class DivisionPolicy
      */
     public function restore(User $user, Division $division): bool
     {
-        return $user->hasRole('Super Admin');
+        return $user->hasRole('Developer');
     }
 
     /**
@@ -73,6 +73,6 @@ class DivisionPolicy
      */
     public function forceDelete(User $user, Division $division): bool
     {
-        return $user->hasRole('Super Admin');
+        return $user->hasRole('Developer');
     }
 }

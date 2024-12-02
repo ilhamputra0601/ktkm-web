@@ -29,7 +29,9 @@ class ReelResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-squares-plus';
 
-    protected static ?string $navigationGroup = 'Posts';
+    protected static ?string $pluralModelLabel = 'Katar Reel';
+
+    protected static ?string $navigationGroup = 'Posting';
 
     public static function form(Form $form): Form
     {
@@ -44,12 +46,21 @@ class ReelResource extends Resource
                         return;
                     }
 
-                    $set('slug', Str::slug($state));
+                    // Generate basic slug
+                    $slug = Str::slug($state);
+
+                    // Check uniqueness and append a number if necessary
+                    $count = Reel::where('slug', 'like', "$slug%")->count();
+                    $uniqueSlug = $count > 0 ? "{$slug}-" . ($count + 1) : $slug;
+
+                    $set('slug', $uniqueSlug);
                 }),
-                TextInput::make('slug')->unique(ignoreRecord: true)->required(),
+                TextInput::make('slug')->unique(ignoreRecord: true)
+                ->hidden(),
                 FileUpload::make('images')
-                    ->image()
                     ->label('Gambar')
+                    ->image()
+                    ->optimize('webp')
                     ->multiple()
                     ->directory('reel-images')
                     ->image()
@@ -106,7 +117,7 @@ class ReelResource extends Resource
     public static function getEloquentQuery(): Builder
     {
         // Allow superAdmin to see all records
-        if (auth()->user()->hasRole(['Super Admin','admin'])) {
+        if (auth()->user()->hasRole(['Developer','Admin'])) {
             return parent::getEloquentQuery();
         }
 

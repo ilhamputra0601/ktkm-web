@@ -13,7 +13,7 @@ class ReelPolicy
      */
     public function viewAny(User $user): bool
     {
-        if($user->hasRole(['Super Admin']) || $user->hasPermissionTo('Akses Reel')){
+        if($user->hasRole(['Developer']) || $user->hasPermissionTo('Akses Reel')){
             return true;
         }
             return false;
