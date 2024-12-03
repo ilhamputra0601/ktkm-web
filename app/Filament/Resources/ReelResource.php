@@ -12,9 +12,13 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Filament\Resources\Resource;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -55,8 +59,8 @@ class ReelResource extends Resource
 
                     $set('slug', $uniqueSlug);
                 }),
-                TextInput::make('slug')->unique(ignoreRecord: true)
-                ->hidden(),
+                Hidden::make('slug')->unique(ignoreRecord: true)
+                ->required(),
                 FileUpload::make('images')
                     ->label('Gambar')
                     ->image()
@@ -65,7 +69,14 @@ class ReelResource extends Resource
                     ->directory('reel-images')
                     ->image()
                     ->imageEditor(),
-                RichEditor::make('content')->disableToolbarButtons(['attachFiles'])->columnSpanFull(),
+                RichEditor::make('content')
+                    ->label('Deskripsi')
+                    ->disableToolbarButtons(['attachFiles'])
+                    ->columnSpanFull(),
+                Toggle::make('published')
+                    ->label('Publikasikan')
+                    ->onColor('success')
+                    ->offColor('danger')
                 ])
             ]);
         }
@@ -80,13 +91,19 @@ class ReelResource extends Resource
                 ->description(fn (Reel $record) => Str::limit($record->content, 50))
                 ->searchable(),
                 TextColumn::make('user.name')
-                ->label('Dibuat Oleh'),
+                ->label('Kreator'),
                 ImageColumn::make('images')
                 ->label('Gambar')
                 ->circular()
                 ->stacked()
                 ->limit(3)
-                ->limitedRemainingText()
+                ->limitedRemainingText(),
+                IconColumn::make('published')
+                ->label('Dipublikasikan')
+                ->trueIcon('heroicon-o-check-circle')
+                ->falseIcon('heroicon-o-x-circle')
+                ->trueColor('success')
+                ->falseColor('danger'),
             ])
             ->filters([
                 //
@@ -94,7 +111,18 @@ class ReelResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                ->successNotification(
+                Notification::make()
+                ->success()
+                ->title('Postingan Dihapus')
+                ->body(auth()->user()->name . ' Menghapus Reel')
+                ->sendToDatabase(auth()->user())),
+            ])
+            ->bulkActions([
+                Tables\Actions\BulkActionGroup::make([
+                    Tables\Actions\DeleteBulkAction::make(),
+                ]),
             ]);
     }
 
