@@ -19,6 +19,8 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin;
+use Filament\Navigation\MenuItem;
+use Illuminate\Routing\Route;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -83,6 +85,20 @@ class AdminPanelProvider extends PanelProvider
                     directory: 'avatars', // image will be stored in 'storage/app/public/avatars
                     rules: 'mimes:jpeg,png|max:1024' //only accept jpeg and png files with a maximum size of 1MB
                 )
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Home')
+                    ->url('/')
+                    ->icon('heroicon-o-arrow-uturn-left'),
+                // ...
+            ])
+            ->userMenuItems([
+                MenuItem::make()
+                    ->label('Profile')
+                    ->url('/admin/my-profile')
+                    ->icon('heroicon-o-cog-6-tooth'),
+                // ...
             ]);
     }
 }

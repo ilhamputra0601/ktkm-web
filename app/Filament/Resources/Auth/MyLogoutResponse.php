@@ -9,6 +9,6 @@ class MyLogoutResponse implements Responsable
 {
     public function toResponse($request)
     {
-        return redirect()->route('welcome');
+        return redirect()->route('home');
     }
 }

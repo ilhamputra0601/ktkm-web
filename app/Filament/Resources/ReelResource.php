@@ -68,6 +68,9 @@ class ReelResource extends Resource
                     ->multiple()
                     ->directory('reel-images')
                     ->image()
+                    ->maxSize(1024)
+                    ->maxFiles(5)
+                    ->panelLayout('grid')
                     ->imageEditor(),
                 RichEditor::make('content')
                     ->label('Deskripsi')
