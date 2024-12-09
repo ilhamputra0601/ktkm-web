@@ -2,8 +2,8 @@
 
 namespace App\Livewire\Components\Reels;
 
-use App\Models\Like;
 use App\Models\Reel;
+use App\Models\Rlike;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,11 +38,11 @@ class IndexReel extends Component
             'user_id' => Auth::user()->id,
         ];
 
-        $like = Like::where($data);
+        $like = Rlike::where($data);
         if($like->count() > 0){
             $like->delete();
         }else{
-            Like::create($data);
+            Rlike::create($data);
         }
 
         return NULL;

@@ -25,6 +25,12 @@ return new class extends Migration
             $table->boolean('published')->default(false);
             $table->timestamps();
         });
+        Schema::create('rlikes', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->constrained('users','id')->cascadeOnDelete();
+            $table->foreignId('reel_id')->constrained('reels','id')->cascadeOnDelete();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -32,6 +38,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('rlikes');
         Schema::dropIfExists('reels');
     }
 };

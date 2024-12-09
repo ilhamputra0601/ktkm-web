@@ -34,12 +34,12 @@ class Comment extends Model
 
     public function hasLike():HasOne
     {
-        return $this->hasOne(Like::class)->where('likes.user_id',Auth::user()->id);
+        return $this->hasOne(Clike::class)->where('clikes.user_id',Auth::user()->id);
     }
 
     public function totalLikes()
     {
-        return $this->hasMany(Like::class)->count();
+        return $this->hasMany(Clike::class)->count();
     }
 
 }

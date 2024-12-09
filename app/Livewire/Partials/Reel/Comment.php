@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Partials\Reel;
 
-use App\Models\Like;
+use App\Models\Clike;
 use App\Models\Reel;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
@@ -126,11 +126,11 @@ class Comment extends Component
             'user_id' => Auth::user()->id,
         ];
 
-        $like = Like::where($data);
+        $like = Clike::where($data);
         if($like->count() > 0){
             $like->delete();
         }else{
-            Like::create($data);
+            Clike::create($data);
         }
 
         return NULL;

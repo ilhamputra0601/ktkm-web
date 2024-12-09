@@ -20,10 +20,9 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('likes', function (Blueprint $table) {
+        Schema::create('clikes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users','id')->cascadeOnDelete();
-            // $table->foreignId('reel_id')->constrained('reels','id')->cascadeOnDelete();
             $table->foreignId('comment_id')->constrained('comments','id')->cascadeOnDelete();
             $table->timestamps();
         });
@@ -34,7 +33,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('clikes');
         Schema::dropIfExists('comments');
     }
 };

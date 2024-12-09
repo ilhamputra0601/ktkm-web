@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Reel extends Model
@@ -47,9 +49,13 @@ class Reel extends Model
 
     }
 
-    public function Likes()
+    public function likes()
     {
-        return $this->hasMany(Like::class);
+        return $this->hasMany(Rlike::class);
+    }
+    public function hasLike():HasOne
+    {
+        return $this->hasOne(Rlike::class)->where('rlikes.user_id',Auth::user()->id);
     }
 
     public function comments()

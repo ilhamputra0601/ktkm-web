@@ -60,15 +60,15 @@ class User extends Authenticatable  implements FilamentUser, MustVerifyEmail
     {
         parent::boot();
 
-        static::creating(function ($user) {
-            if (is_null($user->division_id)) {
-                $user->division_id = 4;
-            }
+        // static::creating(function ($user) {
+        //     if (is_null($user->division_id)) {
+        //         $user->division_id = 4;
+        //     }
 
-            if (!$user->hasAnyRole('')) {
-                $user->assignRole('Pengunjung');
-            }
-        });
+        //     if (!$user->hasAnyRole('')) {
+        //         $user->assignRole('Pengunjung');
+        //     }
+        // });
 
         // Delete avatar file when the user is deleted
         static::deleting(function ($user) {
