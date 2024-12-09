@@ -18,10 +18,10 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $pengunjung = Division::create(['name' => 'Pengunjung']);
         $kominfo = Division::create(['name' => 'Kominfo']);
         $pengurus = Division::create(['name' => 'Pengurus']);
         $kerohanian = Division::create(['name' => 'Kerohanian']);
-        $pengunjung = Division::create(['name' => 'Pengunjung']);
 
         $user1 = User::factory()->create([
             'name' => 'Developer',

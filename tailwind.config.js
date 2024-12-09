@@ -17,6 +17,7 @@ export default {
         },
         extend: {
             fontFamily: {
+                popins: ['Poppins'],
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
         },

@@ -14,6 +14,7 @@ class CreateReel extends CreateRecord
     protected function getRedirectUrl(): string
     {
         $user = auth()->user();
+        $show = $this->record;
 
             Notification::make()
                 ->title('Reel Baru')
@@ -21,7 +22,7 @@ class CreateReel extends CreateRecord
                 ->body( auth()->user()->name  . ' membuat posting')
                 ->actions([
                     Action::make('View')
-                        ->url('https://www.instagram.com/il.pra/')
+                        ->url('/reel/'.$show->slug)
                         ->button()
                         ->markAsRead(),
                 ])
