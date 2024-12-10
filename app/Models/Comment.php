@@ -32,6 +32,7 @@ class Comment extends Model
         });
     }
 
+    
     public function hasLike():HasOne
     {
         return $this->hasOne(Clike::class)->where('clikes.user_id',Auth::user()->id);

@@ -1,13 +1,15 @@
 <?php
 
-namespace App\Livewire\Components\Reels;
+namespace App\Livewire\Components\Reels\Card;
 
 use App\Models\Reel;
 use App\Models\Rlike;
 use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Filament\Notifications\Actions\Action;
+use Filament\Notifications\Notification;
 
-class IndexReel extends Component
+class IndexCard extends Component
 {
     public $count = 5;
 
@@ -28,7 +30,7 @@ class IndexReel extends Component
                     ->latest()
                     ->get();
         // $hide = Reel::count();
-        return view('livewire.Components.Reels.index-reel', compact('reels'));
+        return view('livewire.components.reels.card.index-card', compact('reels'));
     }
 
     public function like($id)
@@ -43,6 +45,23 @@ class IndexReel extends Component
             $like->delete();
         }else{
             Rlike::create($data);
+        }
+
+        $reel = Reel::find($id);
+
+        if ($reel && $reel->user_id !== Auth::user()->id) {
+            // Kirimkan notifikasi ke pemilik postingan
+            Notification::make()
+                ->title('Postingan Disukai')
+                ->success()
+                ->body(Auth::user()->name . ' menyukai postingan Anda')
+                ->actions([
+                    Action::make('View')
+                        ->url('/reel/' . $reel->slug)
+                        ->button()
+                        ->markAsRead(),
+                ])
+                ->sendToDatabase($reel->user);
         }
 
         return NULL;

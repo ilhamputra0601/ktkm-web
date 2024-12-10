@@ -1,4 +1,4 @@
-<x-app-layout title="{{ __('navigation.nav-home') }}">
+<x-app title="{{ __('navigation.nav-home') }}">
     <section class="">
                 <!-- component -->
                 <div class="overflow-x-auto max-w-xl mx-auto flex m-4 space-x-4">
@@ -16,9 +16,9 @@
                         </figure>
                     @endforeach
                 </div>
-                <livewire:Components.Reels.index-reel>
+                <livewire:Components.Reels.Card.index-card>
 
     </section>
     {{-- Partials --}}
     {{-- <x-partials.pages.katarreel.BottomNavigation/> --}}
-</x-app-layout>
+</x-app>

@@ -99,5 +99,5 @@
             </ul>
         </div>
     </div>
-    <livewire:components.partials.navbar.megaMenu>
+    <livewire:components.navbar.megaMenu>
 </nav>

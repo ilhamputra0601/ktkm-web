@@ -1,9 +1,7 @@
-<div>
-
-    <section class=" pb-8 mt-4 lg:pb-16 antialiased">
+  <section class=" pb-8 mt-4 lg:pb-16 antialiased">
         <div class="max-w-2xl mx-auto px-4">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Discussion ({{ $total_comments }})</h2>
+                <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">Diskusi ({{ $total_comments }})</h2>
             </div>
             <form wire:submit.prevent="store" class="mb-6">
                     <div
@@ -11,17 +9,17 @@
                         <label for="comment" class="sr-only">Your comment</label>
                         <textarea wire:model.defer="body" id="comment" rows="6"
                             class="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
-                            placeholder="Write a comment..." required></textarea>
+                            placeholder="Tulis komentar..." required></textarea>
                     </div>
                     @auth
                         <button type="submit"
                             class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                            Post comment
+                           Kirim
                         </button>
                     @else
                         <button onclick="location.href='/admin/login'"
                             class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
-                            Post comment
+                           Kirim
                         </button>
                     @endauth
                 </form>
@@ -57,16 +55,16 @@
                                 aria-labelledby="dropdownMenuIconHorizontalButton">
                                 <li>
                                     <a  wire:click="edit({{ $comment->id }})"
-                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
+                                        class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</a>
                                 </li>
                                 <li>
                                     <a wire:click="delete({{ $comment->id }})"
-                                        class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Remove</a>
+                                        class="cursor-pointer block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Hapus</a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a
                                         class="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                         @endif
@@ -282,4 +280,4 @@
 
             </div>
         </section>
-</div>
+

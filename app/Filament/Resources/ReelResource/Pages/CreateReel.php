@@ -14,19 +14,36 @@ class CreateReel extends CreateRecord
     protected function getRedirectUrl(): string
     {
         $user = auth()->user();
+
         $show = $this->record;
 
+        $users = \App\Models\User::where('id', '!=', $user->id)->get();
+
+        foreach ($users as $recipient) {
             Notification::make()
-                ->title('Reel Baru')
+                ->title('Postingan Baru')
                 ->success()
-                ->body( auth()->user()->name  . ' membuat posting')
+                ->body($user->name . ' Memosting Reel Baru')
                 ->actions([
                     Action::make('View')
-                        ->url('/reel/'.$show->slug)
+                        ->url('/reel/' . $show->slug)
                         ->button()
                         ->markAsRead(),
                 ])
-                ->sendToDatabase($user);
+                ->sendToDatabase($recipient);
+        }
+
+        Notification::make()
+        ->title('Reel Anda Berhasil Diposting')
+        ->success()
+        ->body('Reel Anda berhasil diposting dan terlihat oleh pengguna lain.')
+        ->actions([
+            Action::make('View')
+                ->url('/reel/' . $show->slug)
+                ->button()
+                ->markAsRead(),
+        ])
+        ->sendToDatabase($user);
 
 
         return $this->getResource()::getUrl('index');

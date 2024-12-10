@@ -17,7 +17,7 @@ class ReelController extends Controller
                     ->where('published', true)
                     ->latest()
                     ->get();
-        $divisions = Division::all();
+        $divisions = Division::where('id', '!=', 1)->get();
         return view('katarReel.index',compact('reels','divisions'));
     }
 
@@ -42,8 +42,7 @@ class ReelController extends Controller
      */
     public function show(Reel $reel)
     {
-        $post = $reel;
-        return view('katarReel.show', compact('post'));
+
     }
 
     /**
